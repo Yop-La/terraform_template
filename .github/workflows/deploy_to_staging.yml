@@ -24,6 +24,7 @@ jobs:
 
     - name: 'Create secrets.tfvars'
       run: |
+        tree -L 3
         touch ./environments/staging/secrets.tfvars
         cat <<EOF > ./environments/staging/secrets.tfvars
         aws_access_key = "${{ secrets.AWS_ACCESS_KEY }}"
