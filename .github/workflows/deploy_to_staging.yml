@@ -1,7 +1,11 @@
 name: 'Terraform Deployment to Staging'
 
 
-on: push
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches:
+      - master
 
 jobs:
   terraform:
