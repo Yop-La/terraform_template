@@ -129,3 +129,7 @@ This project includes two GitHub Actions workflows defined in `.github/workflows
 For both staging and production environments, the Terraform state files (`tfstate`) are securely stored on AWS S3 in the bucket named `"foodles-cloud-function-terraform-state"`. This centralized state management enables teams to collaborate on infrastructure updates more efficiently, ensuring that the state is consistently managed and versioned. It also provides a robust backup mechanism for Terraform state files, adding an additional layer of security and recoverability for infrastructure as code.
 
 Using S3 for state storage also enables features like state locking and history, which further enhance the safety and auditability of infrastructure changes. Make sure to configure the appropriate access policies on the S3 bucket to secure your Terraform state files.
+
+## AWS credentials
+
+AWS credentials are stored in the github secrets of the repository. The secrets are used in the github actions to authenticate the terraform commands.
