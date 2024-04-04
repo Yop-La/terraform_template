@@ -1,9 +1,12 @@
 name: 'Terraform Deployment to Staging'
 
+
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
     branches:
       - master
+
 jobs:
   terraform:
     name: 'Terraform Apply Staging'
