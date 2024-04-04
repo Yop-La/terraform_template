@@ -1,0 +1,43 @@
+name: 'Terraform Deploy to Production'
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  terraform:
+    name: 'Terraform Apply Production'
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 'Checkout'
+      uses: actions/checkout@v2
+
+    - name: 'Set up Python 3.11'
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11'
+
+    - name: 'Setup Terraform'
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 'latest'
+        cli_config_credentials_token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: 'Set up AWS credentials'
+      run: |
+        echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
+        echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
+
+    - name: 'Terraform Init'
+      run: terraform init
+      working-directory: ./environments/prod
+
+    - name: 'Terraform Plan'
+      run: terraform plan -var-file=../../secrets.tfvars
+      working-directory: ./environments/prod
+
+    - name: 'Terraform Apply'
+      run: terraform apply -auto-approve -var-file=../../secrets.tfvars
+      working-directory: ./environments/prod
