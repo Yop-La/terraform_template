@@ -37,4 +37,4 @@ terraform.log
 secrets.auto.tfvars
 
 
-/builds/
+builds/
