@@ -113,3 +113,21 @@ To contribute to this project:
 Environments are managed within the same AWS account, distinguishing objects of different environments using prefixes (dev, staging, master). This approach allows for simplified management while maintaining clear separation and organization of resources across environments.
 
 For example, a Lambda function in the `dev` environment might have the following name: `dev-alegui-my-function`.
+
+## CI/CD
+
+This project includes two GitHub Actions workflows defined in `.github/workflows` to automate the CI/CD process for managing infrastructure deployments across different environments.
+
+### Workflows:
+
+1. **`deploy-prod` Workflow:** This workflow is designed to handle deployments to the production environment. It is triggered on merges to the `master` branch. The purpose of this pipeline is to ensure that any changes merged into `master` are automatically deployed to the production environment, facilitating a seamless CI/CD process for critical infrastructure updates.
+
+2. **`deploy_to_staging` Workflow:** This workflow focuses on deployments to the staging environment and is triggered by creating or updating a pull request. The staging environment serves as the testing ground for all new features, bug fixes, and updates. This automation ensures that every pull request is automatically deployed to the staging environment, allowing for live testing and review before the changes are merged into `master` and subsequently deployed to production.
+
+### State Management:
+
+For both staging and production environments, the Terraform state files (`tfstate`) are securely stored on AWS S3 in the bucket named `"foodles-cloud-function-terraform-state"`. This centralized state management enables teams to collaborate on infrastructure updates more efficiently, ensuring that the state is consistently managed and versioned. It also provides a robust backup mechanism for Terraform state files, adding an additional layer of security and recoverability for infrastructure as code.
+
+Using S3 for state storage also enables features like state locking and history, which further enhance the safety and auditability of infrastructure changes. Make sure to configure the appropriate access policies on the S3 bucket to secure your Terraform state files.
+
+By integrating these GitHub Actions workflows and leveraging AWS S3 for state management, this project establishes a solid foundation for managing infrastructure changes across development, staging, and production environments in a secure, efficient, and collaborative manner.
