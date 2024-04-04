@@ -1,0 +1,37 @@
+# Fichiers de configuration locaux
+.terraform/
+*.tfstate
+*.tfstate.*.backup
+*.tfstate.backup
+terraform.tfvars
+*.tfvars
+.secret
+
+# Fichiers de plan Terraform
+*.tfplan
+*.tfplan.*
+
+# Fichiers de verrouillage de module
+.terraform.lock.hcl
+
+# Fichiers de logs
+crash.log
+terraform.log
+
+# Fichiers de sauvegarde créés par certains éditeurs
+*~
+*.bak
+*.swp
+*.tmp
+
+# Dossiers ignorés
+.DS_Store
+.idea/
+.vscode/
+*.iml
+
+# Fichiers de configuration spécifiques à l'environnement qui peuvent contenir des secrets
+*.auto.tfvars
+
+# Ignorez les fichiers secrets qui pourraient être créés
+secrets.auto.tfvars
