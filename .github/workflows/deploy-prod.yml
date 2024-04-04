@@ -1,14 +1,13 @@
-name: 'Terraform Deployment to Staging'
+name: 'Terraform Deploy to Production'
 
 on:
-  pull_request:
-    types: [opened, reopened, synchronize]
+  push:
     branches:
       - master
 
 jobs:
   terraform:
-    name: 'Terraform Apply Staging'
+    name: 'Terraform Apply Production'
     runs-on: ubuntu-latest
 
     steps:
@@ -32,13 +31,13 @@ jobs:
         echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
 
     - name: 'Terraform Init'
-      run: terraform init -var="environment=staging"
-      working-directory: ./environments/staging
+      run: terraform init -var="environment=prod"
+      working-directory: ./environments/prod
 
     - name: 'Terraform Plan'
-      run: terraform plan -var="environment=staging"
-      working-directory: ./environments/staging
+      run: terraform plan -var-file=../../secrets.tfvars -var="environment=prod"
+      working-directory: ./environments/prod
 
     - name: 'Terraform Apply'
-      run: terraform apply -auto-approve -var="environment=staging"
-      working-directory: ./environments/staging
+      run: terraform apply -auto-approve -var-file=../../secrets.tfvars -var="environment=prod"
+      working-directory: ./environments/prod
