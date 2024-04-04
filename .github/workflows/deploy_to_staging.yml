@@ -33,9 +33,9 @@ jobs:
       working-directory: ./environments/staging
 
     - name: 'Terraform Plan'
-      run: terraform plan -var-file=secrets.tfvars
+      run: terraform plan
       working-directory: ./environments/staging
 
     - name: 'Terraform Apply'
-      run: terraform apply -auto-approve -var-file=secrets.tfvars
+      run: terraform apply -auto-approve
       working-directory: ./environments/staging
