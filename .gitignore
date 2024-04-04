@@ -35,3 +35,6 @@ terraform.log
 
 # Ignorez les fichiers secrets qui pourraient être créés
 secrets.auto.tfvars
+
+
+/builds/
