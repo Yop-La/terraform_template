@@ -3,7 +3,6 @@ name: 'Terraform Deployment to Staging'
 
 on: push
 
-
 jobs:
   terraform:
     name: 'Terraform Apply Staging'
