@@ -1,0 +1,42 @@
+name: 'Terraform Deployment to Staging'
+
+on:
+  push:
+    branches-ignore:
+      - master
+
+jobs:
+  terraform:
+    name: 'Terraform Apply Staging'
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 'Checkout'
+      uses: actions/checkout@v2
+
+    - name: 'Setup Terraform'
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 'latest'
+        cli_config_credentials_token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: 'Create secrets.tfvars'
+      run: |
+        cat <<EOF > ./environments/staging/secrets.tfvars
+        aws_access_key = "${{ secrets.AWS_ACCESS_KEY }}"
+        aws_secret_key = "${{ secrets.AWS_SECRET_KEY }}"
+        EOF
+      shell: bash
+      working-directory: ./environments/staging
+
+    - name: 'Terraform Init'
+      run: terraform init
+      working-directory: ./environments/staging
+
+    - name: 'Terraform Plan'
+      run: terraform plan -var-file=secrets.tfvars
+      working-directory: ./environments/staging
+
+    - name: 'Terraform Apply'
+      run: terraform apply -auto-approve -var-file=secrets.tfvars
+      working-directory: ./environments/staging
